@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import "@/app/globals.css";
 import { ReactNode } from "react";
 
 
 
 export const metadata: Metadata = {
-    title: "MukPic-Settings",
-    description: "settings page",
+    title: "MukPic-myPage",
+    description: "myPage",
 };
 
 //기본 레이아웃
@@ -24,13 +23,20 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
     return (
 
-        <div className="main-container flex-1 bg-white rounded-lg shadow-md" >
-            {/* 상단 내비게이션 필요한 버튼 넣어서 사용용 */}
 
-            {/* 메인 페이지 내용 */}
-            {children}
+        <div className='root-wrapper'>
+            <div className="main-container flex-1 bg-white rounded-lg shadow-md" >
+                {/* 상단 내비게이션 필요한 버튼 넣어서 사용용 */}
+
+                {/* 메인 페이지 내용 */}
+                {children}
+
+            
+            </div >
             {/* 하단 네비게이션 */}
-        </div >
 
+       
+            </div >
+            
     );
 }

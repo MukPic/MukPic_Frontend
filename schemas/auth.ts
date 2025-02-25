@@ -38,7 +38,7 @@ export const userNameSchema = z.object({
   userName: z
     .string()
     .min(2, { message: "User name must be at least 2 characters." })
-    .max(10, { message: "User name must be at most 20 characters." })
+    .max(12, { message: "User name must be at most 12 characters." })
     .refine((val) => !/^\d/.test(val), {
       message: "User name cannot start with a number.",
     })

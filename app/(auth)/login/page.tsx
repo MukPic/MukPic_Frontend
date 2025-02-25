@@ -11,15 +11,15 @@ export default function LoginPage() {
     if(localStorage.getItem('googleLoginToken')) {
       localStorage.removeItem('googleLoginToken');
     }
+    
     window.location.href = googleAuthUrl;
   };
 
   return (
 
     <div className="auth-container flex flex-1 gap-2">
-
-
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen"
+      style={{backgroundColor:'white'}}>
         {/* 로고 */}
         <div className="flex-1 flex justify-center items-center">
           <span className="text-3xl font-bold login-logo">MUKPIC</span>

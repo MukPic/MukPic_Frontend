@@ -3,10 +3,12 @@
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
+import { useSignupStore } from "@/app/types/signupStore";
 
 function SignUpContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const setEmail = useSignupStore((state) => state.setemail);
 
   useEffect(() => {
     const email = searchParams.get("email");
@@ -25,6 +27,7 @@ function SignUpContent() {
         );
 
         if (response.status === 200) {
+          setEmail(email);
           const accessToken = response.headers["authorization"];
 
           if (accessToken) {
@@ -47,7 +50,7 @@ function SignUpContent() {
     };
 
     fetchTokens();
-  }, [searchParams, router]);
+  }, [searchParams, router, setEmail]);
 
   return (
     <div className="flex justify-center items-center logo-box">

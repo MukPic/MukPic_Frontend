@@ -13,7 +13,7 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
     return (
-        <div className="root-wrapper">
+        <div className="root-wrapper" style={{padding:'0'}}>
             {children}
         </div>
     );

@@ -7,6 +7,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { addUserKey, createAuthCookie } from "./authFunctions";
 
 
 type Props = {
@@ -39,7 +40,7 @@ function FormatStringArray(input: string[]): string[] {
 export function DropDownIcon() {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <g clip-path="url(#clip0_112_2361)">
+            <g clipPath="url(#clip0_112_2361)">
                 <path d="M11.6133 15.6133L15.0667 19.0666C15.5867 19.5866 16.4267 19.5866 16.9467 19.0666L20.4 15.6133C21.24 14.7733 20.64 13.3333 19.4533 13.3333H12.5467C11.36 13.3333 10.7733 14.7733 11.6133 15.6133Z" fill="black" />
             </g>
             <defs>
@@ -195,7 +196,7 @@ export function GoogleSignupStep3() {
                 data: formData,
             }).then(function (response) {
                 if (response.status === 200) {
-                    setImage(response.data);
+                    setImage(response.data[0]);
                     router.push('/signup/google/step4');
                 }
             }).catch(function () {
@@ -291,7 +292,7 @@ export function GoogleSignupStep3() {
                                     viewBox="-4 -4 24 24"
                                     fill="none"
                                 >
-                                    <g clip-path="url(#clip0_112_2331)">
+                                    <g clipPath="url(#clip0_112_2331)">
                                         <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" fill="#8E8E93" />
                                         <path d="M12.8 3.22222H10.898L10.154 2.39722C9.932 2.14667 9.608 2 9.272 2H6.728C6.392 2 6.068 2.14667 5.84 2.39722L5.102 3.22222H3.2C2.54 3.22222 2 3.77222 2 4.44444V11.7778C2 12.45 2.54 13 3.2 13H12.8C13.46 13 14 12.45 14 11.7778V4.44444C14 3.77222 13.46 3.22222 12.8 3.22222ZM8 11.1667C6.344 11.1667 5 9.79778 5 8.11111C5 6.42444 6.344 5.05556 8 5.05556C9.656 5.05556 11 6.42444 11 8.11111C11 9.79778 9.656 11.1667 8 11.1667Z" fill="#8E8E93" />
                                     </g>
@@ -349,9 +350,10 @@ type DropdownProps = {
     buttonName: string;
     isMultiSelect?: boolean;
     onSelect: (selected: string | string[]) => void;
+    buttonColor?: string;
 }
 
-export function Dropdown({ options, buttonName, isMultiSelect, onSelect }: DropdownProps) {
+export function Dropdown({ options, buttonName, isMultiSelect, onSelect, buttonColor }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림 상태
     const [selectedItems, setSelectedItems] = useState<string[]>([]); // 선택된 항목 리스트
     const [selectedItem, setSelectedItem] = useState<string | null>(null); // 단일 선택용
@@ -429,15 +431,16 @@ export function Dropdown({ options, buttonName, isMultiSelect, onSelect }: Dropd
                                 className="dropdown-item flex"
                                 onClick={() => selectItem(option)}
                             >
-                                <span className="flex flex-1">{option}</span>
+                                <span className="flex">{option}</span>
                                 {/* 여기에 체크박스 추가 */}
                                 {isMultiSelect ? (
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedItems.includes(option)}
-                                        onChange={() => selectItem(option)}
-                                        className="dropdown-checkbox" />
-                                ) :
+                                    <span className='dropdown-checkbox'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedItems.includes(option)}
+                                            onChange={() => selectItem(option)}
+                                        />
+                                    </span>) :
                                     (
                                         null
                                     )
@@ -455,6 +458,7 @@ export function Dropdown({ options, buttonName, isMultiSelect, onSelect }: Dropd
                         key={item}
                         className="dropdown-badge dropdown-badge-green"
                         onClick={() => removeBadge(item)}
+                        style={{ backgroundColor: buttonColor }}
                     >
                         {item} ×
                     </button>
@@ -464,6 +468,7 @@ export function Dropdown({ options, buttonName, isMultiSelect, onSelect }: Dropd
                             key={selectedItem}
                             className="dropdown-badge dropdown-badge-green"
                             onClick={() => removeBadge(selectedItem)}
+                            style={{ backgroundColor: buttonColor }}
                         >
                             {selectedItem} ×
                         </button>
@@ -717,6 +722,7 @@ export function GoogleSignupStep4() {
                     buttonName="Select Your Country"
                     isMultiSelect={false}
                     onSelect={(selected) => setSelectedCountry(selected as string | null)}
+                    buttonColor='#E0E4EB'
                 />
             </div>
             <div>
@@ -741,6 +747,7 @@ export function GoogleSignupStep4() {
                     buttonName="Select Your Chronic Disease"
                     isMultiSelect={true}
                     onSelect={(selected) => setSelectedChronicDisease(selected as string[])}
+                    buttonColor="#FFC4B3"
                 />
             </div>
             <button className='auth-button auth-button-id sign-up-button-text'
@@ -758,12 +765,12 @@ export function GoogleSignupStep5() {
     const [showDropdown, setShowDropdown] = useState<boolean>(false); // 드롭다운 표시 여부
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const seaFoodAllergieList = ['Fish', 'Crab', 'Shrimp', 'Squid', 'Abalone', 'Mussel', 'Oyster', 'Shellfish'];
+    const seaFoodAllergieList = ['Abalone', 'Crab', 'Fish', 'Mussel', 'Oyster', 'Shellfish', 'Shrimp', 'Squid'];
     const fruitAllergieList = ['Peach', 'Tomato'];
-    const nutsAllergieList = ['Buck wheat', 'Wheat', 'Walnut', 'Pine nut', 'Peanut', 'Soybean'];
-    const meatAllergieList = ['Pork', 'Eggs', 'Milk', 'Chicken', 'Beef'];
+    const nutsAllergieList = ['Buck wheat', 'Peanut', 'Pine nut', 'Soybean', 'Walnut', 'Wheat'];
+    const meatAllergieList = ['Beef', 'Chicken', 'Eggs', 'Milk', 'Pork'];
     const etcAllergieList = ['Sulfurous'];
-
+    const email = useSignupStore.getState().email;
     const router = useRouter();
     const setAllergyTypes = useSignupStore(state => state.setAllergyTypes);
     // 최종 회원 가입을 위한 상태 가져오기
@@ -806,17 +813,43 @@ export function GoogleSignupStep5() {
                     if (response.status === 200) {
                         // 회원가입 성공 시 로컬스토리지 초기화 및 환영 메시지 출력
                         localStorage.removeItem('googleLoginToken');
+
                         alert('All set! Welcome aboard!');
-                        router.push('/login');
-                    } else {
+                        if (localStorage.getItem('googleLoginToken')) {
+                            localStorage.removeItem('googleLoginToken');
+                        }
+                        const googleAuthUrl = `${process.env.NEXT_PUBLIC_ROOT_API}/auth/email-login`;
+
+                        axios({
+                            url: googleAuthUrl,
+                            method: 'post',
+                            data: {
+                                email: email
+                            },
+                        }).then(response => { 
+                                const Authorization = response.headers['authorization'];
+                                localStorage.setItem('Authorization', Authorization);
+                                // 미들웨어를 위한 쿠키 설정
+                                createAuthCookie(Authorization);
+                                //userKey 추가
+                                addUserKey(response.data.userKey);
+                                router.push('/');
+                        }).catch(() => {
+                            router.push('/login');
+                        });
+
+                        // location.href = googleAuthUrl;
+                        // router.push(googleAuthUrl);
+                    }else {
                         alert('Failed to sign up Please try again');
                         router.push('/login');
                     }
 
                 })
-                .catch(() => {
-                    alert('Failed to sign up Please try again');
-                    router.push('/login');
+                .catch((error) => {
+                    alert(' Unknow Error Failed to sign up Please try again');
+                    console.log(error);
+                    // router.push('/login');
                 });
         }
     };
@@ -850,7 +883,8 @@ export function GoogleSignupStep5() {
 
     const filteredAllergies = AllergiesSearch
         ? allAllergies.filter(allergy => allergy.toLowerCase().includes(AllergiesSearch.toLowerCase()))
-        : allAllergies;
+            .sort()
+        : allAllergies.sort();
 
     return (
         <form onSubmit={handleSubmit} className='flex flex-col gap-10 flex-grow'>
@@ -975,11 +1009,10 @@ export function GoogleSignupStep5() {
                 </div>
             </div>
             <div className="button-toggle-container flex flex-wrap gap-[1rem]">
-                <div>
-                    <h1 className='allergies-title text-left gap-[0.75rem]'>ETC</h1>
-                </div>
+                <h1 className='allergies-title text-left gap-[0.75rem] w-full'>ETC</h1>
                 <div className="dropdown-badge-container">
                     {etcAllergieList.map((allergie) => (
+
                         <button
                             type='button'
                             key={allergie}
@@ -992,6 +1025,7 @@ export function GoogleSignupStep5() {
                         >
                             {allergie}
                         </button>
+
                     ))}
                 </div>
             </div>

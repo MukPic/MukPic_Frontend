@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useUpdateImageStore } from "@/app/types/updateImgStore";
+import { usePostStore } from "@/app/types/postStore";
 
 export default function MainPage() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -10,65 +12,23 @@ export default function MainPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Top picks");
   const router = useRouter();
 
-  const categories = ["Top picks", "Bap", "Myeon", "Snacks", "Cafe"];
+  // 현석 추가 작성
+  const setImageUrls = usePostStore((state) => state.setImageUrls);
+  const setUpdateImageUrls = useUpdateImageStore((state) => state.setUpdateImageUrls);
+
+  const categories = ["Top picks", "Rice", "Noodle", "Snacks", "Cafe"];
 
   const foodData: Record<string, string[]> = {
-    "Top picks": [
-      "Dakgalbi",
-      "Fried Chicken",
-      "Bibimbap with Extra Veggies",
-      "Tteokbokki",
-      "Bulgogi",
-      "Kimchi Stew",
-      "Samgyeopsal",
-      "Japchae",
-    ],
-    Bap: [
-      "Kimchi Fried Rice",
-      "Bibimbap",
-      "Bulgogi Rice",
-      "Gukbap",
-      "Soy Sauce Egg Rice",
-      "Mushroom Rice Bowl",
-      "Omurice",
-      "Gimbap",
-    ],
-    Myeon: [
-      "Jajangmyeon",
-      "Kalguksu",
-      "Jjamppong",
-      "Naengmyeon",
-      "Udon",
-      "Spicy Cold Noodles",
-      "Bulgogi Noodles",
-      "Soy Sauce Noodles",
-    ],
-    Snacks: [
-      "Hotteok",
-      "Tteokbokki",
-      "Corn Dog",
-      "Gimbap",
-      "Fish Cake Skewers",
-      "Sweet Potato Fries",
-      "Rice Cakes",
-      "Manduguk",
-    ],
-    Cafe: [
-      "Espresso",
-      "Cappuccino",
-      "Bingsu",
-      "Macaron",
-      "Iced Americano",
-      "Matcha Latte",
-      "Affogato",
-      "Cheesecake",
-    ],
+    "Top picks": ["Dakgalbi", "Fried Chicken", "Bibimbap", "Tteokbokki", "Bulgogi", "Kimchi Stew", "Samgyeopsal", "Japchae"],
+    Rice: ["Kimchi Fried Rice", "Bibimbap", "Bulgogi Rice", "Gukbap", "Soy Sauce Egg Rice", "Albap", "Omurice", "Gimbap"],
+    Noodle: ["Jajangmyeon", "Kalguksu", "Jjamppong", "Naengmyeon", "Mak Guksu", "Spicy Cold Noodles", "Bulgogi Noodles", "Soybean Noodle"],
+    Snacks: ["Hotteok", "Tteokbokki", "Corn Dog", "Injeolmi", "Fish Cake Skewers", "Sweet Potato Fries", "Songpyeon", "Gamja Jeon"],
+    Cafe: ["Espresso", "Cappuccino", "Bingsu", "Macaron", "Iced Americano", "Matcha Latte", "Affogato", "Cheesecake"],
   };
 
   const foodImages: Record<string, string> = {
     Dakgalbi: "/images/Dakgalbi.jpg",
     "Fried Chicken": "/images/Fried Chicken.jpg",
-    "Bibimbap with Extra Veggies": "/images/Bibimbap.jpg",
     Tteokbokki: "/images/Tteokbokki.jpeg",
     Bulgogi: "/images/Bulgogi.jpg",
     "Kimchi Stew": "/images/kimchi Stew.jpg",
@@ -79,23 +39,24 @@ export default function MainPage() {
     "Bulgogi Rice": "/images/Bulgogi Rice.jpg",
     Gukbap: "/images/Gukbap.jpg",
     "Soy Sauce Egg Rice": "/images/Soy Sauce Egg Rice.jpg",
-    "Mushroom Rice Bowl": "/images/Mushroom Rice.jpeg",
+    Albap: "/images/Albap.jpg",
     Omurice: "/images/Omurice.jpg",
     Gimbap: "/images/Gimbap.jpg",
     Jajangmyeon: "/images/Jajangmyeon.jpeg",
     Kalguksu: "/images/Kalguksu.jpeg",
     Jjamppong: "/images/Jjamppong.jpeg",
     Naengmyeon: "/images/Naengmyeon.jpg",
-    Udon: "/images/Udon.jpg",
+    "Mak Guksu": "/images/Mak Guksu.jpg",
     "Spicy Cold Noodles": "/images/Spicy Cold Noodles.jpg",
     "Bulgogi Noodles": "/images/Bulgogi Noodles.jpg",
-    "Soy Sauce Noodles": "/images/Soy Sauce Noodles.jpg",
+    "Soybean Noodle": "/images/Soybean Noodle.jpg",
     Hotteok: "/images/Hotteok.jpg",
     "Corn Dog": "/images/Corn Dog.jpg",
     "Fish Cake Skewers": "/images/Fish Cake Skewers.jpg",
     "Sweet Potato Fries": "/images/Sweet Potato Fries.jpeg",
-    "Rice Cakes": "/images/Rice Cakes.jpg",
-    Manduguk: "/images/Manduguk.jpg",
+    "Songpyeon": "/images/Songpyeon.jpg",
+    "Injeolmi": "/images/Injeolmi.jpg",
+    "Gamja Jeon": "/images/Gamja Jeon.jpg",
     Espresso: "/images/Espresso.jpg",
     Cappuccino: "/images/Cappuccino.jpg",
     Bingsu: "/images/Bingsu.jpg",
@@ -104,6 +65,10 @@ export default function MainPage() {
     "Matcha Latte": "/images/Matcha Latte.jpg",
     Affogato: "/images/Affogato.jpg",
     Cheesecake: "/images/Cheesecake.jpg",
+  };
+
+  const handleFoodClick = (food: string) => {
+    router.push(`/keyword?query=${encodeURIComponent(food)}`);
   };
 
   useEffect(() => {
@@ -160,6 +125,11 @@ export default function MainPage() {
 
           const uploadedUrls: string[] = await uploadResponse.json();
           const imageUrl = uploadedUrls[0];
+
+          // 현석 추가 작성
+          setUpdateImageUrls(uploadedUrls);
+          setImageUrls(uploadedUrls);
+
           router.push(`/info?imageUrl=${encodeURIComponent(imageUrl)}`);
         } catch (error: unknown) {
           if (error instanceof Error) {
@@ -181,42 +151,129 @@ export default function MainPage() {
   };
 
   return (
-    <main className="mukpic-main-container bg-gray-50 min-h-[calc(100vh-50px)] px-4 py-6">
-      <section className="flex justify-between items-center mb-6">
-        <div className="flex-1 bg-black text-white rounded-3xl p-6 mr-4 flex flex-col items-center justify-center shadow-md">
-          <p className="text-lg font-bold mb-2">Discover by Photo</p>
+    <main className="bg-white min-h-[calc(100vh-170px)] p-0">
+      {/* 검색바 */}
+      <section className="mb-6">
+        <div className="flex justify-center mb-4">
+          <div className="relative w-full max-w-lg">
+            {/* 돋보기 아이콘 */}
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 15.75L21 21M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"
+                />
+              </svg>
+            </div>
+
+            {/* 검색 입력란 */}
+            <input
+              type="text"
+              placeholder="Search your favorite K-food"
+              className="w-full px-10 py-2 rounded-full border border-gray-300 shadow-sm text-sm"
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  const query = (event.target as HTMLInputElement).value.trim();
+                  if (query) {
+                    router.push(`/keyword?query=${encodeURIComponent(query)}`);
+                  }
+                }
+              }}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="grid grid-cols-2 gap-4 mb-6">
+        <div className="bg-gray-800 text-white rounded-2xl p-6 flex flex-col justify-between shadow-md h-48 relative">
+          {/* 텍스트를 좌측 상단으로 이동 */}
+          <div className="absolute top-4 left-4">
+            <p className="text-xl font-bold leading-tight">Discover</p>
+            <p className="text-xl font-bold leading-tight">by Photo</p>
+          </div>
+          {/* 버튼을 하단 중앙으로 이동 */}
           <button
-            className="bg-white text-black font-semibold px-4 py-2 rounded-md"
+            className="temp-page-button bg-white text-gray-800 font-semibold px-5 py-2 rounded-full flex items-center absolute bottom-4 left-1/2 transform -translate-x-1/2"
             onClick={handleSnapClick}
             disabled={loading}
           >
+            <span className="mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                />
+              </svg>
+            </span>
             {loading ? "Processing..." : "Snap"}
           </button>
         </div>
-        <div className="flex-1 border border-gray-300 rounded-3xl p-6 flex flex-col items-center justify-center shadow-md">
-          <p className="text-lg font-bold mb-2">Create a Post</p>
+        <div className="bg-white border border-gray-300 rounded-2xl p-6 flex flex-col justify-between shadow-md h-48 relative">
+          <div className="absolute top-4 left-4">
+            <p className="text-xl font-bold leading-tight">Create</p>
+            <p className="text-xl font-bold leading-tight">a Post</p>
+          </div>
           <button
-            className="bg-black text-white font-semibold px-4 py-2 rounded-md"
-            onClick={() => router.push("/community")}
+            className="temp-page-button bg-gray-800 text-white font-semibold px-5 py-2 rounded-full flex items-center absolute bottom-4 left-1/2 transform -translate-x-1/2"
+            onClick={() => router.push("/community/post")}
           >
+            <span className="mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.862 3.487a1.125 1.125 0 011.591 0l2.06 2.06a1.125 1.125 0 010 1.591l-9.114 9.114a4.5 4.5 0 01-1.385.95l-3.592 1.558a.75.75 0 01-.977-.977l1.558-3.592a4.5 4.5 0 01.95-1.385l9.114-9.114z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 9.75L14.25 4.5M8.25 19.5h4.5"
+                />
+              </svg>
+            </span>
             Post
           </button>
         </div>
       </section>
 
+      {/* 카테고리 */}
       <section className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Categories</h2>
-        </div>
         <div className="flex overflow-x-scroll space-x-3 pb-2">
           {categories.map((category, idx) => (
             <button
               key={idx}
-              className={`px-4 py-2 rounded-full whitespace-nowrap text-sm ${
-                selectedCategory === category
+              className={`px-4 py-2 rounded-full whitespace-nowrap text-sm ${selectedCategory === category
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
-              }`}
+                }`}
               onClick={() => setSelectedCategory(category)}
             >
               {category}
@@ -225,37 +282,28 @@ export default function MainPage() {
         </div>
       </section>
 
-      <section style={{ marginTop: "1.5rem" }}>
-        <div className="grid grid-cols-4 gap-x-4 gap-y-6">
-          {foodData[selectedCategory]?.map((food, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col items-center"
-              style={{
-                width: "4rem",
-                height: "5rem",
-              }}
-            >
-              <div
-                className="w-16 h-16 flex items-center justify-center rounded-lg mb-2 shadow-sm bg-gray-200"
-                style={{
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  src={foodImages[food] || "/images/default.jpg"}
-                  alt={food}
-                  width={64}
-                  height={64}
-                  className="rounded-lg object-cover"
-                />
-              </div>
-              <p className="text-sm text-gray-700 text-center truncate w-20">
-                {food}
-              </p>
+      {/* 음식 리스트 */}
+      <section className="grid grid-cols-4 gap-4">
+        {foodData[selectedCategory]?.map((food, idx) => (
+          <div
+            key={idx}
+            className="flex flex-col items-center cursor-pointer"
+            onClick={() => handleFoodClick(food)}
+          >
+            <div className="w-20 h-20 flex items-center justify-center rounded-lg mb-2 shadow-md bg-gray-200 overflow-hidden">
+              <Image
+                src={foodImages[food] || "/images/default.jpg"}
+                alt={food}
+                width={80}
+                height={80}
+                className="rounded-lg object-cover"
+              />
             </div>
-          ))}
-        </div>
+            <p className="text-sm text-gray-700 text-center truncate w-20">
+              {food}
+            </p>
+          </div>
+        ))}
       </section>
 
       {error && (

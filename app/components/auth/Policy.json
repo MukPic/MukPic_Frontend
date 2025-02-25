@@ -1,0 +1,92 @@
+{
+    "privacyPolicy": {
+        "title": "Privacy Policy",
+        "sections": [
+            {
+                "heading": "Introduction",
+                "content": "Our Privacy Policy outlines how we collect, use, and protect your personal information when you use our website and services. By accessing or using our platform, you agree to the terms outlined in this policy."
+            },
+            {
+                "heading": "Information We Collect",
+                "content": "We may collect the following types of personal information:",
+                "list": [
+                    "Personal Identification Information: This includes your name, email address, phone number, and any other information you provide.",
+                    "Health and Dietary Information: This includes allergies, dietary restrictions, and food preferences that you voluntarily share to enhance your experience on the platform.",
+                    "Religious Preferences: If relevant, you may provide information about your religious dietary practices.",
+                    "User Activity Data: This includes data on your usage of the platform, interactions with content, and communication with other users."
+                ]
+            },
+            {
+                "heading": "How We Use Your Information",
+                "content": "We use the information we collect for the following purposes:",
+                "list": [
+                    "To improve the service and personalize your experience.",
+                    "To communicate with you about updates, promotions, or changes to the platform.",
+                    "To ensure that content and recommendations are appropriate for your dietary restrictions, allergies, and preferences.",
+                    "To maintain the security and functionality of the platform."
+                ]
+            },
+            {
+                "heading": "How We Protect Your Information",
+                "content": "We implement a variety of security measures to protect your personal information, including encryption, firewalls, and access controls. We also ensure that only authorized personnel have access to your data."
+            },
+            {
+                "heading": "Sharing Your Information",
+                "content": "We do not sell, trade, or rent your personal information to third parties. However, we may share your information with trusted partners or service providers who assist in delivering the service, under strict confidentiality agreements."
+            },
+            {
+                "heading": "Your Rights",
+                "content": "You have the right to:",
+                "list": [
+                    "Access, update, or delete your personal information.",
+                    "Request that we limit the processing of your data.",
+                    "Opt-out of marketing communications."
+                ],
+                "footer": "For more information on your rights and how to exercise them, please contact us at [your contact information]."
+            }
+        ]
+    },
+    "termsOfService": {
+        "title": "Terms of Service",
+        "sections": [
+            {
+                "heading": "Introduction",
+                "content": "These Terms of Service govern your use of our website and services. By accessing or using our platform, you agree to comply with these terms and all applicable laws."
+            },
+            {
+                "heading": "User Obligations",
+                "content": "As a user, you agree to:",
+                "list": [
+                    "Provide accurate and up-to-date information when creating your account.",
+                    "Respect other users' privacy and avoid posting offensive, inappropriate, or harmful content.",
+                    "Not engage in any activity that could harm the platform or violate its security."
+                ]
+            },
+            {
+                "heading": "Content and Intellectual Property",
+                "content": "All content on the platform, including text, images, and software, is the property of the service or its licensors and is protected by intellectual property laws. You are granted a limited, non-exclusive license to use the service, but you may not copy, distribute, or modify the content without permission."
+            },
+            {
+                "heading": "Prohibited Activities",
+                "content": "You are prohibited from:",
+                "list": [
+                    "Engaging in spamming, harassment, or abusive behavior.",
+                    "Using the service for any unlawful or fraudulent activity.",
+                    "Posting content that infringes on the rights of others, including intellectual property rights."
+                ]
+            },
+            {
+                "heading": "Disclaimers and Limitation of Liability",
+                "content": "We make no representations or warranties regarding the availability, accuracy, or reliability of the platform. The platform is provided \"as is,\" and we disclaim all liability for any damages arising from your use of the service."
+            },
+            {
+                "heading": "Termination",
+                "content": "We reserve the right to suspend or terminate your access to the platform if you violate these Terms of Service. You may also terminate your account at any time by contacting us."
+            },
+            {
+                "heading": "Changes to Terms",
+                "content": "We may update these Terms of Service at any time. Users will be notified of significant changes, and the latest version will always be available on the platform."
+            }
+        ]
+    }
+}

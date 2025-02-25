@@ -11,6 +11,7 @@ input {
   line-height: 1.375rem; /* 137.5% */
   letter-spacing: -0.01875rem;
   background: #f1f3f6;
+  width:100%;
 }
 
 input:-webkit-autofill {
@@ -75,7 +76,7 @@ input:focus::placeholder {
   height: 3.375rem;
   flex-shrink: 0;
   border-radius: 6.25rem;
-  padding: 1.25rem;
+  padding: 0.75rem 1.25rem;
   background: #f1f3f6;
   color: #0b0b0b;
   font-feature-settings: "liga" off, "clig" off;
@@ -143,7 +144,7 @@ input.auth-placeholder::placeholder {
 .dropdown-item {
   display: flex;
   align-items: center; /* 세로 방향 가운데 정렬 */
-  justify-content: flex-start; /* 가로 방향 왼쪽 정렬 */
+  justify-content: space-between; /* 가로 방향 왼쪽 정렬 */
   padding-left: 1.53rem;
   width: 100%;
   height: 3.125rem;
@@ -184,7 +185,7 @@ input.auth-placeholder::placeholder {
 }
 .dropdown-badge-green {
   background: #cff7ca;
-  padding-right: 0.5rem;
+  padding-right: 1rem;
 }
 .dropdown-badge-red {
   background: #ffc4b3;
@@ -280,12 +281,11 @@ input.auth-placeholder::placeholder {
 }
 
 .validate-error-text {
-  padding-left:1.25rem;
+  padding-left: 1.25rem;
   color: #fa0c38;
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 0.875rem; /* 116.667% */
-  letter-spacing: -0.01875rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
   text-align: left;
 }
 
@@ -294,6 +294,7 @@ input.auth-placeholder::placeholder {
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
+  text-align: right;
 }
 
 input[type="checkbox"] {
@@ -333,7 +334,7 @@ input[type="checkbox"]:active {
 }
 
 .dropdown-checkbox {
-  margin-right: 1.5rem !important;
+  padding-right:1rem;
 }
 
 .camera-circle {
@@ -342,7 +343,7 @@ input[type="checkbox"]:active {
   flex-shrink: 0;
   position: absolute;
   right: 0rem;
-  bottom:0.25rem;
+  bottom: 0.25rem;
   overflow: visible;
 }
 .camera-icon {
@@ -350,5 +351,33 @@ input[type="checkbox"]:active {
   height: 1rem;
   flex-shrink: 0;
   overflow: visible;
-  transform: translate(-50%, -50%); ;
+  transform: translate(-50%, -50%);
+}
+
+.label-text {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.375rem; /* 137.5% */
+  letter-spacing: -0.01875rem;
+}
+
+.terms-h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-style: initial;
+}
+.terms-wrapper {
+  color: black;
+  text-align: left;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.privacy-policy {
+  max-height: 0;
+  overflow-y: auto;
+  transition: height 0.5s ease-in-out;
+}
+.privacy-policy.open {
+  max-height: 25rem;
 }

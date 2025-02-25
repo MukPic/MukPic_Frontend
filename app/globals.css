@@ -12,6 +12,7 @@ button:disabled {
 }
 
 .root-wrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -19,7 +20,12 @@ button:disabled {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  max-width: 390; /* 확인용으로  일단 390px */
+}
+
+@media only screen and (min-width: 768px) {
+  .root-wrapper {
+    max-width:390px;
+  }
 }
 
 .main-container {
@@ -27,7 +33,7 @@ button:disabled {
   flex-direction: column;
   flex-grow: 1;
   background-color: white;
-  width: 94%;
+  width: 100%;
   justify-content: center;
   margin: 0 auto;
   padding: 0;
@@ -42,6 +48,7 @@ button:disabled {
 /* 웹뷰 및 모바일 최적화 */
 @media {
   body {
+    width: 100%;
     font-size: 16px;
     font-family: "SUIT", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       "Helvetica Neue", Arial, sans-serif;
@@ -141,12 +148,88 @@ button:disabled {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 기존 shadow-md */
 }
 
+/* 검색바와 Discover by Photo 간격 조정 */
+.mukpic-main-container section:nth-child(1) {
+  margin-bottom: 3rem; /* 기존 간격보다 조금 더 넓게 설정 */
+}
+
+/* Section 간 간격 조정 */
+.mukpic-main-container section {
+  margin-bottom: 2.5rem; /* 전체 섹션 간 간격을 일정하게 설정 */
+}
+
+/* 메인 컨테이너 하단 여백 줄이기 */
 .mukpic-main-container {
-  max-width: 24.375rem; /* 페이지 전체 넓이로 확장 */
-  width: 100%; /* 부모 요소에 맞게 조정 */
-  padding: 16px; /* 여백 추가 */
-  background-color: #ffffff; /* 흰색 배경 */
+  width: 100%;
+  max-width: 24.375rem; /* 기존 480px에서 420px로 줄여 여백 감소 */
   margin: 0 auto; /* 중앙 정렬 */
-  border-radius: 8px; /* 둥근 모서리 */
-  box-shadow: none; /* 그림자 제거 */
+  padding: 8px; /* 내부 여백 */
+  background-color: white; /* 흰 배경 */
+
+  /* 현석 수정 0204 */
+  border-radius: 8px; /* 모서리 둥글기 */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 기존 shadow-md */
+}
+
+/* TempMainPage 전용 스타일 */
+.mukpic-main-container .temp-page-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.mukpic-main-container .temp-page-button:hover {
+  opacity: 0.9;
+}
+
+/* Discover by Photo 및 Create a Post 스타일 */
+.mukpic-main-container .grid-cols-2 > div {
+  border-radius: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.mukpic-main-container .grid-cols-2 > div:hover {
+  transform: translateY(-4px);
+}
+
+/* 모바일(핸드폰) 기본 스타일 - 화면 크기가 768px 미만 */
+@media only screen and (max-width: 767px) {
+  .root-wrapper {
+    max-width: 100%; /* 핸드폰에서 화면 전체 너비 사용 */
+    padding: 8px; /* 기본 여백 줄이기 */
+    margin: 0 auto;
+  }
+
+  .mukpic-main-container {
+    max-width: 100%; /* 핸드폰 화면에 맞게 컨테이너 확장 */
+    padding: 8px; /* 내부 여백 축소 */
+    margin: 0 auto;
+  }
+
+  .info-main-container {
+    max-width: 100%; /* 화면 너비에 맞게 확장 */
+    padding: 8px; /* 여백 축소 */
+    margin: 0 auto;
+  }
+}
+
+/* 태블릿 화면 - 768px 이상 1024px 이하 */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .root-wrapper {
+    max-width: 560px; /* 태블릿에 적합한 너비 조정 */
+    padding: 16px; /* 기본 여백 유지 */
+  }
+
+  .mukpic-main-container {
+    max-width: 560px; /* 태블릿에서 적절한 너비 */
+    padding: 8px; /* 여백 유지 */
+  }
+
+  .info-main-container {
+    max-width: 560px; /* 태블릿에서 적절한 너비 */
+    padding: 16px; /* 여백 유지 */
+  }
 }

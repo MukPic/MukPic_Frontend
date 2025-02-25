@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import "@/app/globals.css";
+//import "@/app/globals.css";
 import { ReactNode } from "react";
-
+import { AddBotNav } from "@/app/components/BotNav";
 
 
 export const metadata: Metadata = {
@@ -32,12 +32,12 @@ export default function Layout({ children }: LayoutProps) {
                 {/* 메인 페이지 내용 */}
                 {children}
 
-                {/* 하단 네비게이션 */}
+            
             </div >
-        </div>
-
-
-
-
+            {/* 하단 네비게이션 */}
+            <AddBotNav></AddBotNav>
+       
+            </div >
+            
     );
 }
